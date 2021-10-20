@@ -19,9 +19,7 @@ const setTimeout = function(func, delay, ...args) {
 const clearTimeout = GLib.source_remove;
 
 const log = function(...args) {
-	if (process.env.DEBUG_REACT_GTK) {
-		print(...args);
-	}
+	print(...args);
 };
 
 const console = { log: print, warn: print, error: print };

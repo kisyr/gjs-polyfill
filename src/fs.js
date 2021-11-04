@@ -136,11 +136,13 @@ export function mkdir(path, options = { recursive: false }) {
 
 export function statSync(path, options = {}) {
 	const file = Gio.File.new_for_path(path);
-
-	const info = file.query_info('standard::*', 0, null);
+	const info = file.query_info('*', 0, null);
+	const defaultTime = 1000;
 
 	let result = {
 		size: 0,
+		mtimeMs: defaultTime,
+		mtime: new Date(defaultTime),
 		isDirectory: () => false,
 		isFile: () => false,
 		isSymbolicLink: () => false,
@@ -148,9 +150,14 @@ export function statSync(path, options = {}) {
 
 	if (info) {
 		const infoFileType = info.get_file_type();
+		const modifiedTime = info.get_modification_date_time()
+			? info.get_modification_date_time().to_unix() * 1000
+			: defaultTime;
 
 		result = {
 			size: info.get_size(),
+			mtimeMs: modifiedTime,
+			mtime: new Date(modifiedTime),
 			isDirectory: () => infoFileType === Gio.FileType.DIRECTORY,
 			isFile: () => infoFileType === Gio.FileType.REGULAR,
 			isSymbolicLink: () => infoFileType === Gio.FileType.SYMBOLIC_LINK,

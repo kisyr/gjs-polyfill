@@ -10,7 +10,8 @@
   "main": "src/index.js",
   "exports": {
     "./core": "./src/core.js",
-    "./fs": "./src/fs",
+    "./os": "./src/os.js",
+    "./fs": "./src/fs.js",
     "./child_process": "./src/child_process.js",
     "./fetch": "./src/fetch.js"
   },
